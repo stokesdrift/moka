@@ -15,6 +15,20 @@ public class ConfigurationTest {
 		config.init();
 		
 		Assert.assertEquals("testvalue2", config.getString("testproperty"));
+	
+	
 	}
 	
+	
+	@Test
+	public void testJustPropertyFile() throws Exception {
+		
+		Configuration config = new Configuration("app");
+		config.addLoadPath("/config");
+		config.init();
+		
+		Assert.assertEquals("testvalue", config.getString("testproperty"));
+
+	
+	}
 }
