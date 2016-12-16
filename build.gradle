@@ -4,7 +4,7 @@ buildscript {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     mavenCentral()
   }
-  
+
 }
 
 apply plugin: 'java'
@@ -12,7 +12,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'groovy'
-apply plugin: 'application'
+// apply plugin: 'application'
 
 
 configurations {
@@ -34,8 +34,8 @@ repositories {
   mavenCentral()
 }
 
-dependencies {	
-    testCompile 'junit:junit:4.11'        
+dependencies {
+    testCompile 'junit:junit:4.11'
 }
 
 jar {
