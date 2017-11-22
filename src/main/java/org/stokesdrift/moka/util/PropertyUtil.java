@@ -3,6 +3,7 @@ package org.stokesdrift.moka.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,7 +39,17 @@ public class PropertyUtil {
 			}
 		}
 		Properties properties = (defaults != null) ? new Properties(defaults) : new Properties();
-		properties.load(new FileInputStream(new File(fileUrl)));
+		InputStream is = null;
+		if(null != fileUrl) {
+			try {
+				is = new FileInputStream(new File(fileUrl));
+			} catch(java.lang.IllegalArgumentException iae) {
+				is = PropertyUtil.class.getResourceAsStream(fileName.toString());	
+			}
+		} else {
+			is = PropertyUtil.class.getResourceAsStream(fileName.toString());
+		}
+		properties.load(is);
 		return properties;
 	}
 	
