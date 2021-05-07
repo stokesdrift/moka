@@ -7,10 +7,17 @@ buildscript {
 
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'maven'
-apply plugin: 'groovy'
+// Apply plugins
+plugins {
+  id 'maven-publish'
+  id 'publishing'
+  id 'java'
+  id 'groovy'
+  id 'idea'
+  id 'eclipse'
+  id 'application'
+}
+
 
 
 if (project.hasProperty("signing.keyId")) {
@@ -18,16 +25,6 @@ if (project.hasProperty("signing.keyId")) {
     signing {
         sign configurations.archives
     }
-}
-
-configurations {
-  compile {
-    transitive = true
-  }
-
-  runtime {
-    extendsFrom compile
-  }
 }
 
 sourceCompatibility = '1.7'
@@ -40,7 +37,19 @@ repositories {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.11'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
 
 jar {
@@ -54,20 +63,6 @@ compileGroovy {
   groovyOptions.javaAnnotationProcessing = true
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-  archives javadocJar, sourcesJar
-}
-
 test {
     systemProperties 'property': 'value'
 }
@@ -78,46 +73,77 @@ eclipse {
   }
 }
 
-uploadArchives {
-  repositories {
-    mavenDeployer {
+publishing {
 
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+  publications {
+    driftserver(MavenPublication) {
+      pom {
+        groupId "${group}"
+        artifactId "${archivesBaseName}"   
+        version "${version}"
+        from components.java
+        
+        name = 'Stokes Drift Moka'
+        packaging = 'jar'
+        description = 'Configuration tooling'
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        name 'Moka'
-        packaging 'jar'
-        description 'Configuration tooling'
-        url 'http://www.stokesdrift.com'
-        scm {
-          connection 'scm:git:git@github.com:stokesdrift/moka.git'
-          developerConnection 'scm:git:git@github.com:stokesdrift/moka.git'
-          url 'git@github.com:stokesdrift/moka.git'
-        }
-
+        url = "http://www.stokesdrift.com"
+        
         licenses {
           license {
-            name 'MIT License'
-            url 'http://www.opensource.org/licenses/mit-license.php'
+            name = 'MIT License'
+            url = 'http://www.opensource.org/licenses/mit-license.php'
           }
         }
 
         developers {
           developer {
-            id 'driedtoast'
-            name 'Daniel Marchant'
-            email 'driedtoast@gmail.com'
+            id = 'driedtoast'
+            name = 'Daniel Marchant'
+            email = 'driedtoast@gmail.com'
           }
-        }
+        }          
+                  
+        scm {
+          connection = 'scm:git:git@github.com:stokesdrift/moka.git'
+          developerConnection = 'scm:git:git@github.com:stokesdrift/moka.git'
+          url = 'git@github.com:stokesdrift/moka.git'
+        } 
       }
     }
   }
+
+  repositories {
+    maven {
+        def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+        def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+        url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+    }
+    maven {
+      url = "https://oss.sonatype.org/content/repositories/snapshots/" 
+      mavenContent {
+        snapshotsOnly()
+      }
+
+      credentials {
+        username "${ossrhUsername}" 
+        password "${ossrhPassword}"
+      } 
+    }
+    
+    maven {
+      url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/" 
+      mavenContent {
+        releasesOnly()
+      }
+
+      credentials {
+        username "${ossrhUsername}" 
+        password "${ossrhPassword}"
+      } 
+    }
+
+  }
+
+
 }
