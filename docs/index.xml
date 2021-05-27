@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>moka on stokes drift</title>
+    <link>/moka/</link>
+    <description>Recent content in moka on stokes drift</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Mar 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/moka/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started</title>
+      <link>/moka/getting-started/</link>
+      <pubDate>Thu, 23 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/moka/getting-started/</guid>
+      <description>First add moka to your java project via:
+For gradle use:
+implementation group: &amp;#39;org.stokesdrift&amp;#39;, name: &amp;#39;moka&amp;#39;, version: &amp;#39;0.1.1&amp;#39; For maven use:
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.stokesdrift&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;moka&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;0.1.1&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; See mvnrepository for other dependency management styles.
+Next</description>
+    </item>
+    
+    <item>
+      <title>Usage</title>
+      <link>/moka/usage/</link>
+      <pubDate>Thu, 23 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/moka/usage/</guid>
+      <description>The idea behind moka is to provide a way to override property file defaults with environment variables passed to the application.
+For instance, take this example property file:
+my.property=defaultfordev And say its located under src/java/resources/config called app.properties.
+In your java code you would init your config with moka via:
+Configuration config = new Configuration(&amp;#34;app&amp;#34;); config.addLoadPath(&amp;#34;/config&amp;#34;); config.init(); And at runtime if you wanted to override the value with an environment variable you would run export MY_PROPERTY=propertyforprod.</description>
+    </item>
+    
+  </channel>
+</rss>

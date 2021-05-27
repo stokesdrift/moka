@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/variables.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/global.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/syntax.css'>
+</head>
+    <body>
+        
+            <nav class="wrapper navigation drop-shadow">
+    <div><a href="/"><img src="/assets/logo.png" /></a><span class="title">moka</span>
+    </div>
+    <div class="link-nav">
+        
+        <a href="/drift-server/" alt="drift server ">drift server</a>
+        
+        <a href="/moka/" alt="moka ">moka</a>
+        
+    </div>
+</nav>
+<main aria-role="main" class="wrapper">
+        
+        <div id="content" class="moka">
+            
+
+<aside>
+    <ul>
+        
+        
+            
+            <li class=" menusection">
+                <span>setup</span>
+            </li>
+            <ul class="sub-menu">
+
+                
+                <li class="">
+                    <a href="/moka/getting-started/">Getting Started</a>
+                </li>
+                
+                <li class="active">
+                    <a href="/moka/usage/">Usage</a>
+                </li>
+                
+            </ul>
+            
+        
+    </ul>
+</aside>
+<section id="main">
+    <h1 id="title">Usage</h1>
+    <article>
+        <p>The idea behind moka is to provide a way to override property file defaults with environment variables passed to the application.</p>
+<p>For instance, take this example property file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">my.property=defaultfordev
+</code></pre></div><p>And say its located under <code>src/java/resources/config</code> called <code>app.properties</code>.</p>
+<p>In your java code you would init your config with moka via:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Configuration config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Configuration<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;app&#34;</span><span style="color:#f92672">);</span>
+config<span style="color:#f92672">.</span><span style="color:#a6e22e">addLoadPath</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/config&#34;</span><span style="color:#f92672">);</span>
+config<span style="color:#f92672">.</span><span style="color:#a6e22e">init</span><span style="color:#f92672">();</span>
+</code></pre></div><p>And at runtime if you wanted to override the value with an environment variable you would run <code>export MY_PROPERTY=propertyforprod</code>.</p>
+<p>This would override the property value with <code>propertyforprod</code>.</p>
+<p>To get this property in your code you would use:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">config<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;my.property&#34;</span><span style="color:#f92672">);</span>
+</code></pre></div><p>In addition to environment variable overrides it supports system property eg (-Dmy.property=blah) overrides.</p>
+<p>The supported property values are:</p>
+<ul>
+<li>Integer - <code>config.getInteger(&quot;my.int&quot;)</code> this would parse a string into an integer</li>
+<li>String - <code>config.getString(&quot;my.str&quot;)</code></li>
+<li>String Array - <code>config.getStringArray(&quot;my.stringarr&quot;)</code> this would parse a comma delimited string value into a string array</li>
+</ul>
+
+    </article>
+</section>
+
+        </div>
+
+        
+</main>
+<footer class="wrapper">
+        <p>
+            &copy; 2021 
+            <a href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons Attribution">Creative Commons Attribution</a>;
+            please attribute properly and link back.
+            <br /><br />
+            <a href="https://github.com/stokesdrift/" target="_blank"><img src="/assets/GitHub-Mark-32px.png"></a>
+        </p>
+</footer>
+
+    </body>
+</html>
